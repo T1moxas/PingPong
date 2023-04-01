@@ -50,6 +50,12 @@ ball = GameSprite('tenis_ball.png', 200, 200, 50, 50, 4)
 dx = 3
 dy = 3
 
+#надписи
+font.init()
+font1 = font.Font(None, 70)
+lose1 = font1.render('Первый проиграл!', True, (255,255,255))
+lose2 = font1.render('Второй проиграл!', True, (255,255,255))
+
 game = True
 finish = False
 while game:
@@ -67,7 +73,7 @@ while game:
 
         if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball):
             dx *= -1
-   
+
         window.fill((100,100,100))
         racket1.reset()
         racket2.reset()
@@ -75,9 +81,11 @@ while game:
 
         if ball.rect.x<=0:
             finish = True
+            window.blit(lose1, (200,200))
 
         if ball.rect.x>=win_width - 50:
             finish = True
+            window.blit(lose2, (200,200))
 
     display.update()
     clock.tick(FPS)
