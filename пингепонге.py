@@ -9,7 +9,6 @@ FPS = 60
 class GameSprite(sprite.Sprite):
     #конструктор класса
     def __init__(self, player_image, player_x, player_y, size_x, size_y, player_speed):
-        
         #Вызываем конструктор класса (Sprite):
         sprite.Sprite.__init__(self)
  
@@ -32,19 +31,24 @@ class Player(GameSprite):
         keys = key.get_pressed()
         if keys[K_w] and self.rect.y > 5:
             self.rect.y -= self.speed
-        if keys[K_s] and self.rect.y < 345:
-            self.rect.y += self.speed      
+        if keys[K_s] and self.rect.y < win_width - 80:
+            self.rect.y += self.speed
+
     def update_r(self):
         keys = key.get_pressed()
         if keys[K_UP] and self.rect.y > 5:
             self.rect.y -= self.speed
-        if keys[K_DOWN] and self.rect.y < 345:
+        if keys[K_DOWN] and self.rect.y < win_width - 80:
             self.rect.y += self.speed
 
 #создания мяча и ракетки  
-racket1 = Player('racket.png', 0, 200, 50, 150, 4)
-racket2 = Player('racket.png', 650, 200, 50, 150, 4)
+racket1 = Player('racket.png', 30, 200, 50, 150, 4)
+racket2 = Player('racket.png', 520, 200, 50, 150, 4)
 ball = GameSprite('tenis_ball.png', 200, 200, 50, 50, 4)
+
+#движение мяча
+dx = 3
+dy = 3
 
 game = True
 finish = False
@@ -52,12 +56,17 @@ while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
+
     if finish == False:
         racket1.update_l()
         racket2.update_r()
+        ball.rect.x += dx
+        ball.rect.y += dy
+       
         window.fill((100,100,100))
         racket1.reset()
         racket2.reset()
         ball.reset()
+
     display.update()
     clock.tick(FPS)
